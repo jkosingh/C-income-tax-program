@@ -1,0 +1,196 @@
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+
+int main()
+{
+	double IncomeTax = 0.00;
+	double TaxableIncome = 0.00;
+	double Income = 0.00;
+	double NumberofDependants = 0.00;
+	double EmployerDeductions = 0.00;
+	double refund = 0;
+	const double SurtaxRate = .035;
+	const double rate1 = .15;
+	const double rate2 = .18;
+	const double rate3 = .20;
+	const double table1 = (TaxableIncome - 20000);
+	cout << " Please enter your current income before any deductions for income tax: ";
+	cin >> Income;
+	cout.setf(ios::fixed);
+	cout.setf(ios::showpoint);
+	cout.precision(2);
+	if(Income <= 0.00)
+	{
+		cout << "error entering income, your income cannot be < 0";
+		return 0;
+	}
+	else
+	{
+		cout << endl;
+	}
+	
+	
+	cout << " Please enter the number of children you support: ";
+	cin >> NumberofDependants;
+
+	if(NumberofDependants < 0)
+	{
+		cout << "you cannot have a negative number of dependants" << endl;
+		return 1;
+	}
+	else if(NumberofDependants > 10)
+	{
+		NumberofDependants = 10;
+		cout << endl;
+	}
+	else 
+	{
+		cout << endl;
+	}
+	
+	cout << " Please enter the amount of income tax your employer already deducted: ";
+	cin >> EmployerDeductions;
+
+	if(EmployerDeductions > Income)
+	{
+		cout << " You cannot prepay more in tax than you receive in income ";
+		return 2;
+	}
+	else
+	{
+		cout << endl;
+	}
+	
+
+	TaxableIncome = (Income - (NumberofDependants * 5000));
+
+	if(TaxableIncome < 12000)
+	{
+		cout << " You pay no income tax " << IncomeTax << endl;
+	
+	}
+	else if(TaxableIncome > 12000 && TaxableIncome <= 20000)
+	{
+		IncomeTax = (TaxableIncome * rate1) - EmployerDeductions;
+		cout << endl;
+	}
+	else if(TaxableIncome > 20000 && TaxableIncome <= 50000)
+	{
+		IncomeTax = (((TaxableIncome - 20000) * rate3 ) + (20000 * rate1)) - EmployerDeductions;
+		cout << endl;
+	}
+	else if(TaxableIncome > 50000 && TaxableIncome <= 100000)
+	{
+			IncomeTax = (TaxableIncome * rate2) - EmployerDeductions;
+			cout << endl;
+	}
+	else if(TaxableIncome > 100000 && TaxableIncome <= 10000000)
+	{
+		IncomeTax = (TaxableIncome * rate2) + ((TaxableIncome - 100000) * SurtaxRate) - EmployerDeductions; 
+		cout << endl;
+	}
+	else
+	{
+		cout << " You must use alternate procedure, taxable income too large ";
+		return 3;
+	}
+	
+	
+	if((IncomeTax - EmployerDeductions) > 0)
+	{
+		refund = EmployerDeductions - IncomeTax;
+	}
+	else
+	{
+		refund = 0;
+	}
+	if(refund < 0)
+	{
+		refund = 0;
+	}
+	else
+	{
+		refund = refund;
+	}
+
+	if(TaxableIncome < 12000)
+	{
+	     cout << " Amount of income:                          $" << setw(12) << Income << endl;
+		 cout << " Number of qualifying dependants:           $" << setw(12) << NumberofDependants << endl;
+		 cout << " Taxable Income:                            $" << setw(12) << TaxableIncome << endl;
+		 cout << " Amount of Income tax deducted:             $" << setw(12) << EmployerDeductions  << endl;
+		 cout << endl << endl;
+		 cout << " You do not owe any income tax " << endl;
+		 cout << " You will receive a refund of               $" << setw(12) << EmployerDeductions << endl;
+	}
+	else if(TaxableIncome > 12000 && TaxableIncome <= 20000)
+	{
+		 cout << " Amount of income:                          $" << setw(12) << Income << endl;
+		 cout << " Number of qualifying dependants:           $" << setw(12) << NumberofDependants << endl;
+		 cout << " Taxable Income:                            $" << setw(12) << TaxableIncome << endl;
+		 cout << " Amount of Income tax deducted:             $" << setw(12) << EmployerDeductions << endl;
+		 cout << endl << endl;
+		 cout << "Tax on the first $20000 of taxable income   $" << TaxableIncome * rate1 << endl;
+		 cout << "Tax on the first $30000 of taxable income   $" << "0" << endl;
+		 cout << "Tax on remaining taxable income             $" << "0" << endl;
+		 cout << "Income tax surtax                           $" << "0" << endl; 
+		 cout << "You must pay a balance of                   $" << (TaxableIncome * rate1) - EmployerDeductions << endl; 
+		 cout << "You will receive a refund of                $" << refund << endl;
+	}
+		
+	else if(TaxableIncome > 20000 && TaxableIncome <= 50000)
+	{
+		IncomeTax = (((TaxableIncome - 20000) * rate3 ) + (20000 * rate1)) - EmployerDeductions;
+		 cout << " Amount of income:                          $" << setw(12) << Income << endl;
+		 cout << " Number of qualifying dependants:           $" << setw(12) << NumberofDependants << endl;
+		 cout << " Taxable Income:                            $" << setw(12) << TaxableIncome << endl;
+		 cout << " Amount of Income tax deducted:             $" << setw(12) << EmployerDeductions << endl;
+		 cout << endl << endl;
+		 cout << "Tax on the first $20000 of taxable income   $" << (20000 * rate1) << endl;
+		 cout << "Tax on the first $30000 of taxable income   $" << ((TaxableIncome - 20000)* rate3) << endl;
+		 cout << "Tax on remaining taxable income             $" << "0" << endl;
+		 cout << "Income tax surtax                           $" << "0" << endl;
+		 cout << "You must pay a balance of                   $" << (((TaxableIncome - 20000)* rate3) + (20000 * rate1)) - EmployerDeductions << endl;
+		 cout << "You will receive a refund of                $" << refund << endl;
+	}
+	else if(TaxableIncome > 50000 && TaxableIncome <= 100000)
+	{
+		IncomeTax = (TaxableIncome * rate2) - EmployerDeductions;
+		 cout << " Amount of income:                          $" << setw(12) << Income << endl;
+		 cout << " Number of qualifying dependants:           $" << setw(12) << NumberofDependants << endl;
+		 cout << " Taxable Income:                            $" << setw(12) << TaxableIncome << endl;
+		 cout << " Amount of Income tax deducted:             $" << setw(12) << EmployerDeductions << endl;
+		 cout << endl << endl;
+		 cout << "Tax on the first $20000 of taxable income   $" << (20000 * rate2) << endl;
+		 cout << "Tax on the first $30000 of taxable income   $" << ((30000)* rate2) << endl;
+		 cout << "Tax on remaining taxable income             $" << ((TaxableIncome - 50000) * rate2) << endl;
+		 cout << "Income tax surtax                           $" << "0" << endl;
+		 cout << "You must pay a balance of                   $" <<  ((20000 * rate2) + (30000 * rate2) + ((TaxableIncome - 50000) * rate2)) - EmployerDeductions << endl; 
+		 cout << "You will receive a refund of                $" << refund << endl;
+			
+	}
+	else if(TaxableIncome > 100000 && TaxableIncome <= 10000000)
+	{
+		IncomeTax = (TaxableIncome * rate2) + ((TaxableIncome - 100000) * SurtaxRate) - EmployerDeductions; 
+		 cout << " Amount of income:                          $" << setw(12) << Income << endl;
+		 cout << " Number of qualifying dependants:           $" << setw(12) << NumberofDependants << endl;
+		 cout << " Taxable Income:                            $" << setw(12) << TaxableIncome << endl;
+		 cout << " Amount of Income tax deducted:             $" << setw(12) << EmployerDeductions << endl;
+		 cout << endl << endl;
+		 cout << "Tax on the first $20000 of taxable income   $" << (20000 * rate2) << endl;
+		 cout << "Tax on the first $30000 of taxable income   $" << (30000 * rate2) << endl;
+		 cout << "Tax on remaining taxable income             $" << ((TaxableIncome - 50000) * rate2)   << endl;
+		 cout << "Income tax surtax                           $" << ((TaxableIncome - 100000) * SurtaxRate) << endl;
+		 cout << "You must pay a balance of                   $" << ((20000 * rate2) + (30000 * rate2) + ((TaxableIncome - 50000) * rate2) + ((TaxableIncome - 100000) * SurtaxRate)) - EmployerDeductions << endl;
+		 cout << "You will receive a refund of                $" << refund << endl;
+	}
+	else
+	{
+		cout << " You must use alternate procedure, taxable income too large " << endl;
+		
+	}
+
+
+	}
